@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>40K + D&D Commission Painting | Canadian Miniature Artist</title>
+    <meta name="description" content="Commission painting for Warhammer 40k, Battletech, D&D miniatures. Battlefield ready to display quality."> 
+    <meta property="og:title" content="Azure Miniatures" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Custom Warhammer, Battletech, D&D Commission Painting and more! Canadian Miniature Artist" />
+    <meta property="og:image" content="URL" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.crossorigin" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --blood-red: #8b0000;
+            --dark-metal: #1a1a1a;
+            --aged-brass: #b8860b;
+            --parchment: #f4e4c1;
+            --shadow: #0a0a0a;
+            --gunmetal: #2d3436;
+            --rust-orange: #cc5500;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Crimson Text', serif;
+            background: var(--shadow);
+            color: var(--parchment);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0,0,0,.1) 2px,
+                    rgba(0,0,0,.1) 4px
+                ),
+                radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.3;
+        }
+        
+        /* Header */
+        header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                linear-gradient(135deg, rgba(139,0,0,0.2) 0%, rgba(26,26,26,0.9) 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%231a1a1a" width="1200" height="600"/></svg>');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(to top, var(--shadow), transparent);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 1rem;
+            max-width: 900px;
+        }
+        
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 12vw, 8rem);
+            letter-spacing: 8px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--parchment) 0%, var(--aged-brass) 50%, var(--rust-orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+            text-shadow: 0 0 30px rgba(184, 134, 11, 0.5);
+        }
+        
+        @keyframes titleGlow {
+            0% { filter: brightness(1) drop-shadow(0 0 10px rgba(184, 134, 11, 0.3)); }
+            100% { filter: brightness(1.2) drop-shadow(0 0 20px rgba(184, 134, 11, 0.6)); }
+        }
+        
+        .hero-subtitle {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--parchment);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+        
+        .hero-tagline {
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--aged-brass);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .cta-button {
+            font-family: 'Oswald', sans-serif;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 3px solid var(--aged-brass);
+            background: linear-gradient(135deg, var(--blood-red) 0%, var(--dark-metal) 100%);
+            color: var(--parchment);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(184, 134, 11, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .cta-button:hover {
+            border-color: var(--rust-orange);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.5);
+        }
+        
+        /* Services Section */
+        .services {
+            padding: 8rem 2rem;
+            background: linear-gradient(180deg, var(--shadow) 0%, var(--dark-metal) 50%, var(--shadow) 100%);
+            position: relative;
+        }
+        
+        .services::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--aged-brass), transparent);
+        }
+        
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            text-align: center;
+            letter-spacing: 6px;
+            margin-bottom: 1rem;
+            color: var(--aged-brass);
+            text-transform: uppercase;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--parchment);
+            opacity: 0.8;
+            margin-bottom: 5rem;
+            font-style: italic;
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .service-card {
+            background: linear-gradient(135deg, var(--gunmetal) 0%, var(--dark-metal) 100%);
+            border: 2px solid var(--aged-brass);
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--blood-red), var(--aged-brass), var(--rust-orange));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .service-card:hover::before {
+            opacity: 1;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(139, 0, 0, 0.4);
+        }
+        
+        .service-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--aged-brass);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .service-desc {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--parchment);
+            opacity: 0.9;
+        }
+        
+        .service-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            color: var(--rust-orange);
+            margin-top: 1.5rem;
+            letter-spacing: 1px;
+        }
+        
+        /* Gallery Section */
+        .gallery {
+            padding: 8rem 2rem;
+            background: var(--shadow);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item-noasp {
+            position: relative;
+            /*aspect-ratio: 1;*/
+            background: var(--gunmetal);
+            border: 3px solid var(--aged-brass);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            background: var(--gunmetal);
+            border: 3px solid var(--aged-brass);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(139,0,0,0.3) 0%, rgba(204,85,0,0.3) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+        
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(139, 0, 0, 0.6);
+            border-color: var(--rust-orange);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--dark-metal) 0%, var(--gunmetal) 100%);
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            color: var(--aged-brass);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(10,10,10,0.95), transparent);
+            /*transform: translateY(100%);*/
+            transition: transform 0.4s ease;
+            z-index: 2;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        .gallery-caption h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            color: var(--aged-brass);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        
+        .gallery-caption p {
+            font-size: 0.95rem;
+            color: var(--parchment);
+            opacity: 0.8;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 8rem 2rem;
+            background: linear-gradient(180deg, var(--shadow) 0%, var(--dark-metal) 100%);
+            text-align: center;
+        }
+        
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 4rem;
+        }
+        
+        .contact-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--parchment);
+            transition: all 0.3s ease;
+            padding: 2rem;
+            background: var(--gunmetal);
+            border: 2px solid var(--aged-brass);
+            min-width: 200px;
+        }
+        
+        .contact-link:hover {
+            transform: translateY(-10px);
+            border-color: var(--rust-orange);
+            box-shadow: 0 15px 30px rgba(139, 0, 0, 0.4);
+        }
+        
+        .contact-icon {
+            font-size: 3rem;
+            color: var(--aged-brass);
+        }
+        
+        .contact-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .contact-detail {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--shadow);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 2px solid var(--aged-brass);
+        }
+        
+        footer p {
+            color: var(--parchment);
+            opacity: 0.6;
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                letter-spacing: 4px;
+            }
+            
+            .hero-subtitle {
+                letter-spacing: 2px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        
+        .gallery-item {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+        
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.15s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.25s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.35s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.45s; }
+        .gallery-item:nth-child(9) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <!-- Header / Hero -->
+    <header>
+        <div class="hero-content">
+            <h1 class="hero-title">Azure Miniatures</h1>
+            <p class="hero-subtitle">Commission Painting & Custom Orders</p>
+        </div>
+    </header>
+
+        <div class="gallery-grid">
+            <div class="gallery-item-noasp">
+                <img 
+                    src="exalted2.jpg" 
+                    alt="Battletech Marik Parade Lance"
+                >
+            </div>
+        </div>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <h2 class="section-title">Services</h2>
+        <h3 class="service-title section-subtitle">Warhammer 40k</h3>
+        <p class="section-subtitle">I have experience with a variety of factions, especially Chaos Space Marines, Daemons and Space Marines, and would be glad to paint whatever you'd like!</p>
+        <h3 class="service-title section-subtitle">Other Games</h3>
+        <p class="section-subtitle">Battletech, Konflikt '47, D&D, Starcraft and Star Wars Legion are all options, as well as painting the miniatures for board games like Scythe.</p>
+        <h3 class="service-title section-subtitle">Animals + Custom Prints</h3>
+        <p class="section-subtitle">Contact me if you would like any pet miniatures or custom work painted to spec.</p>
+        <h3 class="service-title section-subtitle">Painting Tiers</h3>
+
+        <div class="service-grid">
+            <div class="service-card fade-in">
+                <h3 class="service-title">Tabletop Standard</h3>
+                <p class="service-desc">Fast, clean basecoats with washes, details and some highlights. Battle-ready miniatures that look great on the table and won't break the bank.</p>
+                <p class="service-price">$6-7 per infantry model</p>
+            </div>
+            
+            <div class="service-card fade-in">
+                <h3 class="service-title">Tabletop+ Standard</h3>
+                <p class="service-desc">Crisp layering, edge highlights, some glow effects or weathering and careful detail work. Your army will stand out in any battle and look fantastic in photos.</p>
+                <p class="service-price">$7-10 per infantry model</p>
+            </div>
+            
+            <div class="service-card fade-in">
+                <h3 class="service-title">Display Quality</h3>
+                <p class="service-desc">My best paint job with advanced metal techniques, color coordination, OSL, freehand, and weathering.</p>
+                <p class="service-price">Approximately $60 per hero model, contact for quote</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <h2 class="section-title">Gallery</h2>
+        <p class="section-subtitle">Recent commissions and showcase pieces</p>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img 
+                    src="marik.jpg" 
+                    alt="Battletech Marik Parade Lance"
+                    loading="lazy"
+                >
+                <div class="gallery-caption">
+                    <h3>Battletech Marik Parade Lance</h3>
+                    <p>Tabletop+ standard</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img 
+                    src="exalted.jpg" 
+                    alt="Thousand Sons Exalted Sorcerers"
+                    loading="lazy"
+                >
+                <div class="gallery-caption">
+                    <h3>Thousand Sons Exalted Sorcerers</h3>
+                    <p>Display standard</p>
+                </div>
+            </div>
+            
+            
+            <div class="gallery-item">
+                <img 
+                    src="mki.jpg" 
+                    alt="Konflikt '47 MKi Automated Squad"
+                    loading="lazy"
+                >
+                
+                <div class="gallery-caption">
+                    <h3>Konflikt '47 MKi Automated Squad</h3>
+                    <p>Display standard</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img 
+                    src="walker.jpg" 
+                    alt="Percival Walker and MKii Infantry"
+                    loading="lazy"
+                >
+                
+                <div class="gallery-caption">
+                    <h3>Percival Walker and MKii Infantry</h3>
+                    <p>Tabletop+ standard - Weathered + OSL</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img 
+                    src="trajann.jpg" 
+                    alt="Trajann Valoris"
+                    loading="lazy"
+                >
+                
+                <div class="gallery-caption">
+                    <h3>Trajann Valoris</h3>
+                    <p>Display standard</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img 
+                    src="yucfud.jpg" 
+                    alt="World Eaters Eightbound"
+                    loading="lazy"
+                >
+
+                <div class="gallery-caption">
+                    <h3>World Eaters Eightbound</h3>
+                    <p>Tabletop+ standard</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img 
+                    src="ultram.webp" 
+                    alt="Hive Fleet Leviathan Tyranid Swarm, tournament ready 30+ models"
+                    loading="lazy"
+                >
+                
+                <div class="gallery-caption">
+                    <h3>Ultramarine Intercessor Squad</h3>
+                    <p>Tabletop standard</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img 
+                    src="scarhd.jpg" 
+                    alt="Scarab Occult Terminators"
+                    loading="lazy"
+                >
+                
+                <div class="gallery-caption">
+                    <h3>Scarab Occult Terminators</h3>
+                    <p>Display standard</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img 
+                    src="elementals.png" 
+                    alt="D&D Elementals"
+                    loading="lazy"
+                >                
+                
+                <div class="gallery-caption">
+                    <h3>D&D Elementals</h3>
+                    <p>Tabletop standard</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <h3 class="service-title section-subtitle">Order Options</h3>
+        <p class="section-subtitle"> 1- I can source miniatures and sell them custom painted through Ebay, located in Canada with worldwide shipping <p class="section-subtitle"> 2- Ship your minis to me for painting and I can list them on Ebay or sell through Paypal.</p>
+        <p class="section-subtitle">*I pack miniatures as well as possible but am not responsible for damage during shipping or customs issues with packages that are sent to me.</p>
+        
+        <div class="contact-links">
+            <a href="https://www.ebay.ca/usr/azure_miniatures" class="contact-link" target="_blank" rel="noopener">
+                <div class="contact-icon">🛒</div>
+                <div class="contact-label">eBay Store</div>
+                <div class="contact-detail">Browse Available Work</div>
+            </a>
+            
+            <a href="https://bsky.app/profile/pyranostudios.bsky.social" class="contact-link" target="_blank" rel="noopener">
+                <div class="contact-icon">🦋</div>
+                <div class="contact-label">Bluesky</div>
+                <div class="contact-detail">@pyranostudios.bsky.social</div>
+            </a>
+            
+            <a href="mailto:azuregallagher@gmail.com" class="contact-link">
+                <div class="contact-icon">✉️</div>
+                <div class="contact-label">Email</div>
+                <div class="contact-detail">azuregallagher@gmail.com</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Azure Miniatures. Painted with love, care, and usually no offerings to Khorne.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
