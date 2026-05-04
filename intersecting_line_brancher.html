@@ -1,0 +1,165 @@
+<canvas id="c" style="display:block;border-radius:8px;width:100%;background:#06060f;"></canvas>
+<script>
+const cvs = document.getElementById('c');
+const ctx = cvs.getContext('2d');
+const W = cvs.width = 1900;
+const H = cvs.height = 1080;
+
+const lines = [];
+const pts = [];
+const ptSet = new Set();
+const queue = [];
+const done = new Set();
+
+const MAX = 240;
+const MIN_GAP = 0.1 // Math.PI / 5;
+
+function pkey(x, y) {
+  return `${Math.round(x/5)*5},${Math.round(y/5)*5}`;
+}
+
+function makeRay(theta, px, py) {
+  const R = 3000, co = Math.cos(theta), si = Math.sin(theta);
+  return { x1: px-co*R, y1: py-si*R, x2: px+co*R, y2: py+si*R, theta };
+}
+
+function clip(x1, y1, x2, y2) {
+  const dx = x2-x1, dy = y2-y1;
+  let t0 = 0, t1 = 1;
+  const segs = [[-dx, x1],[dx, W-x1],[-dy, y1],[dy, H-y1]];
+  for (const [p, q] of segs) {
+    if (p===0) { if (q<0) return null; }
+    else { const t=q/p; if(p<0) t0=Math.max(t0,t); else t1=Math.min(t1,t); }
+  }
+  return t0>t1 ? null : { x1:x1+t0*dx, y1:y1+t0*dy, x2:x1+t1*dx, y2:y1+t1*dy };
+}
+
+function xsect(a, b) {
+  const dx1=a.x2-a.x1, dy1=a.y2-a.y1, dx2=b.x2-b.x1, dy2=b.y2-b.y1;
+  const d = dx1*dy2 - dy1*dx2;
+  if (Math.abs(d)<1e-9) return null;
+  const t = ((b.x1-a.x1)*dy2-(b.y1-a.y1)*dx2)/d;
+  return { x: a.x1+t*dx1, y: a.y1+t*dy1 };
+}
+
+function d2line(l, px, py) {
+  const dx=l.x2-l.x1, dy=l.y2-l.y1;
+  return Math.abs(dy*px - dx*py + l.x2*l.y1 - l.y2*l.x1) / Math.hypot(dx,dy);
+}
+
+function addLine(theta, px, py, gen) {
+  const l = { ...makeRay(theta,px,py), gen };
+  lines.push(l);
+  for (let i=0; i<lines.length-1; i++) {
+    const p = xsect(l, lines[i]);
+    if (!p || p.x<-80||p.x>W+80||p.y<-80||p.y>H+80) continue;
+    const k = pkey(p.x, p.y);
+    if (!ptSet.has(k)) { ptSet.add(k); pts.push(p); }
+    if (!done.has(k)) queue.push(p);
+  }
+}
+
+function step() {
+  while (queue.length) {
+    const p = queue.shift();
+    const k = pkey(p.x, p.y);
+    if (done.has(k)) continue;
+    done.add(k);
+    if (lines.length >= MAX) continue;
+
+    const local = lines.filter(l => d2line(l, p.x, p.y) < 6);
+    if (local.length < 2) continue;
+
+    const rays = local.flatMap(l => {
+      const t = Math.atan2(l.y2-l.y1, l.x2-l.x1);
+      return [
+        ((t%(2*Math.PI))+2*Math.PI)%(2*Math.PI),
+        ((t+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)
+      ];
+    }).sort((a,b)=>a-b);
+
+    let maxG=0, bis=0;
+    for (let i=0; i<rays.length; i++) {
+      const a=rays[i];
+      const b = i<rays.length-1 ? rays[i+1] : rays[0]+2*Math.PI;
+      const g=b-a;
+      if (g>maxG) { maxG=g; bis=(a+g/2)%(2*Math.PI); }
+    }
+
+    if (maxG < MIN_GAP) continue;
+
+    const gen = Math.max(...local.map(l=>l.gen)) + 1;
+    addLine(bis, p.x, p.y, gen);
+    return true;
+  }
+  return false;
+}
+
+function draw() {
+  ctx.fillStyle = '#06060f';
+  ctx.fillRect(0, 0, W, H);
+
+  for (const l of lines) {
+    const cl = clip(l.x1, l.y1, l.x2, l.y2);
+    if (!cl) continue;
+    const hue = (l.theta/Math.PI*300+180)%360;
+    const alpha = Math.max(0.1, 0.88-l.gen*0.1);
+    const lw = Math.max(0.2, 1.6-l.gen*0.17);
+    ctx.strokeStyle = `hsla(${hue},78%,63%,${alpha})`;
+    ctx.lineWidth = lw;
+    ctx.beginPath();
+    ctx.moveTo(cl.x1, cl.y1);
+    ctx.lineTo(cl.x2, cl.y2);
+    ctx.stroke();
+  }
+
+  for (const p of pts) {
+    if (p.x<0||p.x>W||p.y<0||p.y>H) continue;
+    const isDone = done.has(pkey(p.x, p.y));
+    ctx.fillStyle = isDone ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.2)';
+    const r = isDone ? 1.8 : 1.0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, r, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  ctx.fillStyle = 'rgba(255,255,255,0.18)';
+  ctx.font = '11px monospace';
+  ctx.fillText(`lines: ${lines.length}  intersections: ${pts.length}`, 10, H-10);
+}
+
+function init() {
+  lines.length=0; pts.length=0; ptSet.clear(); queue.length=0; done.clear();
+  for (let i=0; i<3; i++) {
+    const theta = (Math.PI/3)*i + (Math.random()-0.5)*0.55;
+    const px = W*(0.25+Math.random()*0.5);
+    const py = H*(0.25+Math.random()*0.5);
+    addLine(theta, px, py, 0);
+  }
+}
+
+init();
+
+let lastTs = 0, restartTimer = null;
+
+function frame(ts) {
+  if (lines.length >= MAX && !queue.length) {
+    if (!restartTimer) {
+      restartTimer = setTimeout(() => { restartTimer=null; init(); }, 3000);
+    }
+    draw();
+    return requestAnimationFrame(frame);
+  }
+
+  const interval = lines.length<6 ? 700 : lines.length<20 ? 200 : lines.length<70 ? 65 : 22;
+  if (ts - lastTs > interval) {
+    step();
+    lastTs = ts;
+  }
+
+  draw();
+  requestAnimationFrame(frame);
+}
+
+requestAnimationFrame(frame);
+</script>
